@@ -122,7 +122,7 @@ ENV DOCKER_BASE_IMAGE ${image}:${tag}
 RUN git clone -b $branch https://github.com/deephdc/benchmarks_cnn_api && \
     cd  benchmarks_cnn_api && \
 # install official TF Benchmarks
-    ./pull-tf_benchmarks.sh --tfbench_path=/srv/tf_cnn_benchmarks && \
+    ./pull-tf_cnn_benchmarks.sh --tfbench_path=/srv/tf_cnn_benchmarks && \
     pip3 install --no-cache-dir -e . && \
     rm -rf /root/.cache/pip/* && \
     rm -rf /tmp/* && \
