@@ -52,12 +52,12 @@ pipeline {
                         }
                         if (env.BRANCH_NAME == 'test') {
                             // tag flavors
-                            tag_synthetic = [${env.BRANCH_NAME}, 'synthetic-${env.BRANCH_NAME}']
+                            tag_synthetic = ['${env.BRANCH_NAME}', 'synthetic-${env.BRANCH_NAME}']
                             tag_dataset = ['dataset-${env.BRANCH_NAME}']
                             tag_pro = ['pro-${env.BRANCH_NAME}']
                         }
 
-                        id_cpu = DockerBuild(id,
+                        id_synth = DockerBuild(id,
                                             tag: tag_synthetic, 
                                             build_args: ["image=${env.base_image}",
                                                          "tag=${env.base_tag}",
@@ -68,7 +68,7 @@ pipeline {
                         sh "bash ../check_oc_artifact/check_artifact.sh ${env.dockerhub_repo}"
 
                         // 'dataset' flavor
-                        id_gpu = DockerBuild(id,
+                        id_data = DockerBuild(id,
                                             tag: tag_dataset, 
                                             build_args: ["image=${env.base_image}",
                                                          "tag=${env.base_tag}",
@@ -76,7 +76,7 @@ pipeline {
                                                          "branch=${env.BRANCH_NAME}",
                                                          "jlab=true"])
                         // 'pro' flavor
-                        id_gpu = DockerBuild(id,
+                        id_pro = DockerBuild(id,
                                             tag: tag_pro, 
                                             build_args: ["image=${env.base_image}",
                                                          "tag=${env.base_tag}",
@@ -104,8 +104,9 @@ pipeline {
             }
             steps{
                 script {
-                    DockerPush(id_cpu)
-                    DockerPush(id_gpu)
+                    DockerPush(id_synth)
+                    DockerPush(id_data)
+                    DockerPush(id_pro)
                 }
             }
             post {
