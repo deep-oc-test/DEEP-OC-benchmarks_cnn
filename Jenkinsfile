@@ -52,9 +52,9 @@ pipeline {
                         }
                         if (env.BRANCH_NAME == 'test') {
                             // tag flavors
-                            tag_synthetic = ['${env.BRANCH_NAME}', 'synthetic-${env.BRANCH_NAME}']
-                            tag_dataset = ['dataset-${env.BRANCH_NAME}']
-                            tag_pro = ['pro-${env.BRANCH_NAME}']
+                            tag_synthetic = [env.BRANCH_NAME, 'synthetic-'+env.BRANCH_NAME]
+                            tag_dataset = ['dataset-'+env.BRANCH_NAME]
+                            tag_pro = ['pro-'+env.BRANCH_NAME]
                         }
 
                         id_synth = DockerBuild(id,
